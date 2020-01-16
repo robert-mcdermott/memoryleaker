@@ -16,7 +16,7 @@ Once it's started it will run until stopped (ctrl-c).
 ```
 ./memoryleaker [-d <leak delay in ms; deafaults to 100>]
  
-  -d int    Optional: delay is ms to adjust the leak rate; default is 100 (default 100)
+  -d int    Optional: delay in ms to adjust the leak rate; default is 100 (default 100)
  
   -h        print usage information
 ```
