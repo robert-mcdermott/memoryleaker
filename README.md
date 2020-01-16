@@ -2,7 +2,7 @@
 
  A utility that simulates a memory leak for testing and diagnostic purposes.
 
- ![](images/2020-01-16-14-08-34.png)
+ ![](images/2020-01-16-14-11-19.png)
 
 ## Download
 
