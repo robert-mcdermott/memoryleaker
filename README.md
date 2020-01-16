@@ -2,6 +2,8 @@
 
  A utility that simulates a memory leak for testing and diagnostic purposes.
 
+ ![](images/2020-01-16-14-08-34.png)
+
 ## Download
 
 - **Windows x64:** [memoryleaker.exe](https://github.com/robert-mcdermott/memoryleaker/blob/master/bin/memoryleaker.exe?raw=true)
