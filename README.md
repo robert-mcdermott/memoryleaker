@@ -33,6 +33,6 @@ Leaked: 3 MiB ███████▒▒▒
 Here's a very fast memory leak:
 
 ```
-./memoryleaker -d 5
+$ ./memoryleaker -d 5
 Leaked: 4950 MiB ███████▒▒▒ 
 ```
