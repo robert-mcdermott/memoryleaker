@@ -13,12 +13,14 @@
 
 Executed without providing a leak delay it will default to 100ms which leaks at a rate of about 200MiB the first minute (it's not linear). You can adjust the delay to control rate of the leak from ~3GiB/persecond with no delay (-d 0) or to ~3MiB/minute with 1000ms delay (-d 1000), or a very, very slow leak with a 10 second delay (-d 10000).
 
-Once it's started it will run until stopped (ctrl-c).
+Once it's started it will run until stopped (ctrl-c), otherwise it will leak until your system out of memory. If you'd like to define an upper limit to the memory leak, you can use the limit flag (-l \<limit in MiBs\>) that will stop the leak once the desired limit is reached.
 
 ```
 ./memoryleaker [-d <leak delay in ms; deafaults to 100>]
  
-  -d int    Optional: delay in ms to adjust the leak rate; default is 100 (default 100)
+  -d int    Optional: delay in ms to adjust the leak rate; default is 100
+
+  -l int    Optional: upper limit to the memeory leak in MiB; default is unlimited
  
   -h        print usage information
 ```
@@ -32,9 +34,10 @@ $ ./memoryleaker
 Leaked: 3 MiB ███████▒▒▒
 ```
 
-Here's a very fast memory leak:
+Here's a very fast memory leak that's lmited to 2GB:
 
 ```
-$ ./memoryleaker -d 5
-Leaked: 4950 MiB ███████▒▒▒ 
+$ ./memoryleaker -d 5 -l 2048
+Leaked: 2048 MiB ███████▒▒▒ 
+Holding at 2048 MiB 
 ```
