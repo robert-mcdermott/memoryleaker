@@ -41,3 +41,14 @@ $ ./memoryleaker -d 5 -l 2048
 Leaked: 2048 MiB ███████▒▒▒ 
 Holding at 2048 MiB 
 ```
+
+AnotherMemoryLeak 
+
+```shell script
+$ go build -gcflags='-m' main.go
+```
+produces verbose output including something like:
+```shell script
+./main.go:103:9: &anotherString escapes to heap
+./main.go:102:6: moved to heap: anotherString
+```

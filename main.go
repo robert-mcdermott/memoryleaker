@@ -35,6 +35,8 @@ func main() {
 	// a channel to use a hold when the memory limit it reached
 	hold := make(chan bool)
 
+	// memLimit is a channel to send signal receiver when memory leaks to threshold
+	memLimit := make(chan bool)
 	// a spinner that displays how much memory has leaked and when it holding
 	go func(hold chan bool, lFlag int) {
 		s := spinner.New(spinner.CharSets[35], 250*time.Millisecond)
@@ -52,7 +54,7 @@ func main() {
 				s.UpdateCharSet(spinner.CharSets[28])
 				s.UpdateSpeed(1 * time.Second)
 				s.Restart()
-				<-hold
+				memLimit <- true
 			}
 		}
 	}(hold, *lFlag)
@@ -81,16 +83,24 @@ func main() {
 			abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 			abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`
 
-	// start leaking indefinitely unless a limit has been provided and met
-	for {
-		leak += KB
-		time.Sleep(time.Duration(*dFlag) * time.Millisecond)
-		mem := memUsage()
-		// if we've reached the limit, hold
-		if mem >= uint64(*lFlag) {
-			<-hold
+	select {
+	case <-memLimit:
+		<-hold
+	default:
+		// start leaking indefinitely unless a limit has been provided and met
+		for {
+			//leak += KB
+			leak += *anotherLeak(KB)
+			time.Sleep(time.Duration(*dFlag) * time.Millisecond)
 		}
 	}
+
+}
+
+// https://www.ardanlabs.com/blog/2017/05/language-mechanics-on-escape-analysis.html
+func anotherLeak(str string) *string {
+	var anotherString = str
+	return &anotherString
 }
 
 func memUsage() uint64 {
